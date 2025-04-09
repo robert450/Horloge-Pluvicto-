@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Temps écoulé depuis l'approbation de Pluvicto – Sans accès public au Québec</title>
+  <style>
+    /* Style global avec un joli dégradé en fond et une typographie moderne */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #74ABE2, #5563DE);
+      color: #fff;
+    }
+    
+    h1 {
+      margin-top: 40px;
+      font-size: 2rem;
+      padding: 0 20px;
+    }
+    
+    /* Conteneur de l'horloge */
+    .clock {
+      font-size: 1.8rem;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+      padding: 20px 30px;
+      margin: 40px auto;
+      border-radius: 10px;
+      width: fit-content;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    
+    /* Adaptation sur écran mobile */
+    @media (max-width: 600px) {
+      h1 {
+         font-size: 1.5rem;
+      }
+      .clock {
+         font-size: 1.3rem;
+         padding: 15px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Temps écoulé depuis l'approbation de Pluvicto au Canada – Toujours pas d'accès public au Québec</h1>
+  <div class="clock" id="clock"></div>
+
+  <script>
+    // Date de départ : 25 juillet 2022
+    const startDate = new Date("2022-07-25T00:00:00");
+
+    // Fonction pour calculer le temps écoulé en années, mois, jours, heures, minutes et secondes
+    function calculateElapsedTime(start, now) {
+      let years   = now.getFullYear() - start.getFullYear();
+      let months  = now.getMonth() - start.getMonth();
+      let days    = now.getDate() - start.getDate();
+      let hours   = now.getHours() - start.getHours();
+      let minutes = now.getMinutes() - start.getMinutes();
+      let seconds = now.getSeconds() - start.getSeconds();
+
+      if (seconds < 0) {
+        seconds += 60;
+        minutes--;
+      }
+      if (minutes < 0) {
+        minutes += 60;
+        hours--;
+      }
+      if (hours < 0) {
+        hours += 24;
+        days--;
+      }
+      if (days < 0) {
+        // Obtenir le nombre de jours du mois précédent
+        let lastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+        days += lastMonth.getDate();
+        months--;
+      }
+      if (months < 0) {
+        months += 12;
+        years--;
+      }
+      return { years, months, days, hours, minutes, seconds };
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const elapsed = calculateElapsedTime(startDate, now);
+
+      // Utilisation des abréviations : a, mo, j, h, min, s
+      const display = 
+          elapsed.years   + " a, " +
+          elapsed.months  + " mo, " +
+          elapsed.days    + " j, " +
+          elapsed.hours   + " h, " +
+          elapsed.minutes + " min, " +
+          elapsed.seconds + " s";
+
+      document.getElementById("clock").textContent = display;
+    }
+
+    // Mise à jour de l'horloge toutes les secondes
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>
